@@ -1,12 +1,15 @@
 package rmsample.com.worldflags;
 
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,27 +33,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void showFlagGrid(String countryName){
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayoutId);
-        GridLayout flagGridLayout  = (GridLayout)findViewById(R.id.flag_grid);
-        if (flagGridLayout != null){
-            linearLayout.removeView(flagGridLayout);
-        }
-        List<String> allCountryNames =  new ArrayList<String>(map.keySet());
-        if (allCountryNames.contains(countryName)){
-            String code = map.get(countryName).toLowerCase();
-            Drawable drawable = getResources().getDrawable(getResources().getIdentifier(code,"drawable",getPackageName()));
-            flagGridLayout = (GridLayout)getLayoutInflater().inflate(R.layout.flag_grid,null);
-            flagGridLayout.setColumnCount(3);
-            flagGridLayout.setRowCount(allCountryNames.size()/3);
-            ((ImageView)flagGridLayout.findViewById(R.id.flagIV)).setImageDrawable(drawable);
-            ((TextView)flagGridLayout.findViewById(R.id.flagCountryTV)).setText(countryName);
-        }
-        else{
-            Toast.makeText(this,"Unable to get the flag for the country name. Please re-check name.", Toast.LENGTH_SHORT).show();
-        }
+
     }
 
-    private void showFlagOfCountryName(String countryName){
+    //method to show single flag on button tap
+    private void showFlagOfCountryName(final String countryName){
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayoutId);
         LinearLayout flagLinearLayout = (LinearLayout)findViewById(R.id.flag);
         if (flagLinearLayout!= null){
@@ -62,15 +49,29 @@ public class MainActivity extends AppCompatActivity {
             View flagView = getLayoutInflater().inflate(R.layout.flag,linearLayout);
             ((ImageView)flagView.findViewById(R.id.flagImageView)).setImageDrawable(drawable);
             ((TextView)flagView.findViewById(R.id.countryName)).setText(countryName);
+            ((CheckBox)flagView.findViewById(R.id.checkBoxId)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CheckBox checkBox = (CheckBox)view;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Great!!!");
+                    builder.setMessage("Clicked "+ countryName);
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            });
         }
         else{
             Toast.makeText(this,"Unable to get the flag for the country name. Please re-check name.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void getCountryCodeFromName(String countryName){
-
-    }
 
     private void setupCountryCodes(){
         map.put("Andorra, Principality Of", "AD");
@@ -338,8 +339,8 @@ public class MainActivity extends AppCompatActivity {
 //        linearLayout.addView(button);
 
         String countryName = ((TextView)findViewById(R.id.enterCountryName)).getText().toString();
-//        showFlagOfCountryName(countryName);
-        showFlagGrid(countryName);
+        showFlagOfCountryName(countryName);
+//        showFlagGrid(countryName);
     }
 
 }

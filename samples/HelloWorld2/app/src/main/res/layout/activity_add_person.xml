@@ -5,21 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/linearLayoutId"
-    tools:context="rmsample.com.worldflags.MainActivity">
+    tools:context="rmsample.com.helloworld2.AddPersonActivity">
 
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:id="@+id/enterCountryName"/>
+        android:id="@+id/name_text"
+        android:hint="Word-1"
+        android:layout_margin="20dp"
+        />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/surname_text"
+        android:hint="Word-2"
+        android:layout_margin="20dp"
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Show Flag"
-        android:onClick="addButtonClicked"/>
+        android:text="Add person"
+        android:onClick="addPersonClick"
+        />
 
 </LinearLayout>
